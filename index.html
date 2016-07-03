@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+
+    <body ng-app="clockApp">
+        <div class="container" ng-controller = "clockCtrl">
+            <h1>Pomodoro Timer</h1>
+            <div class="break col-md-5 col-md-offset-1">
+                <div class="inner">
+                    <p>Break Length</p>
+                    <button class = "add" ng-click = "breakChange(1)">+</button>
+                    <p class = "breakTime break">{{breakLength}}</p>
+                    <button class = "subtract" ng-click = "breakChange(-1)">-</button>
+                </div>
+            </div>
+
+            <div class="session col-md-5 col-md-offset-1">
+                <div class="inner">
+                    <p>Session Length</p>
+                    <button class = "add" ng-click = "sessionChange(1)">+</button>
+                    <p class = "sessionTime session">{{sessionLength}}</p>
+                    <button class = "subtract" ng-click = "sessionChange(-1)">-</button>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-md-offset-3">
+                <div class="outer-circle" ng-click = "toggleTimer()">
+                    <div class="inner-circle">
+                        <p class="timer">{{timerString}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
