@@ -27,7 +27,6 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
     };
 
     $scope.toggleTimer = function () {
-        console.log("hello");
         var timer;
         if (!inSession) {
             timer = $interval(function () {
@@ -50,10 +49,13 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
 
 
 function parseTimer(seconds) {
+    console.log(seconds);
     var hours = Math.floor(seconds/3600);
-    var minutes = hours%3600/60;
-    seconds = seconds%3600%60;
+    var minutes = Math.floor(seconds%3600/60);
+    seconds = Math.floor(seconds%3600%60);
     console.log([hours,minutes,seconds]);
-    return "" +hours +":" + minutes + ":" + seconds;
-    
+    var string = hours < 0 ? hours +":" : "";
+    string = minutes > 0 ? string + minutes +":" : string += "";
+    string = seconds < 10 ? string + "0" + seconds : string + seconds;
+    return string;
 }
