@@ -12,14 +12,14 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
 
     $scope.sessionChange = function (time) {
         if (!inSession) {
-            $scope.sessionLength = $scope.sessionLength < 1 ? 1 : $scope.sessionLength + time;
+            $scope.sessionLength = $scope.sessionLength == 1 ? 1 : $scope.sessionLength + time;
             seconds = $scope.sessionLength * 60;
             $scope.timerString = $scope.sessionLength;
         }
     };
     $scope.breakChange = function (time) {
         if (!inSession) {
-            $scope.breakLength = $scope.breakLength < 1 ? 1 : $scope.breakLength + time;
+            $scope.breakLength = $scope.breakLength == 1 ? 1 : $scope.breakLength + time;
             if ($scope.sessionName == "break") {
                 seconds = $scope.breakLength * 60;
                 $scope.timerString = $scope.breakLength;
@@ -42,11 +42,38 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
     function updateTimer() {
         seconds -= 1;
         $scope.timerString = parseTimer(seconds);
+        if (seconds < 0)
+        {
+            playSound($scope.sessionName);
+
+            if ($scope.sessionName == 'session')
+            {
+                $scope.sessionName = 'break';
+                seconds = $scope.breakLength * 60;
+            }
+            else 
+            {
+                $scope.sessionName = 'session';
+                seconds = $scope.sessionLength *60;
+            }
+
+        }
+
     }
 
 
 });
 
+function playSound(name)
+{
+    if (name == 'session')
+    {
+
+    }
+    else {
+
+    }
+}
 
 function parseTimer(seconds) {
     console.log(seconds);
