@@ -5,8 +5,7 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
     $scope.sessionLength = 25;
     $scope.breakLength = 5;
     $scope.sessionName = "session";
-    $scope.timerLength = $scope.sessionLength;
-    $scope.timerString = $scope.timerLength;
+    $scope.timerString = $scope.sessionLength;
 
     var inSession = false;
     var seconds = $scope.sessionLength * 60;
@@ -14,27 +13,28 @@ mainController = app.controller('clockCtrl', function ($scope, $interval) {
     $scope.sessionChange = function (time) {
         if (!inSession) {
             $scope.sessionLength = $scope.sessionLength < 1 ? 1 : $scope.sessionLength + time;
-            seconds = $scope.timerLength * 60;
-            $scope.timerLength = $scope.sessionLength * 60;
+            seconds = $scope.sessionLength * 60;
+            $scope.timerString = $scope.sessionLength;
         }
     };
     $scope.breakChange = function (time) {
         if (!inSession) {
             $scope.breakLength = $scope.breakLength < 1 ? 1 : $scope.breakLength + time;
-            if ($scope.sessionName == "break")
-                $scope.timerLength = $scope.breakLength * 60;
+            if ($scope.sessionName == "break") {
+                seconds = $scope.breakLength * 60;
+                $scope.timerString = $scope.breakLength;
+            }
         }
     };
 
     $scope.toggleTimer = function () {
-        var timer;
         if (!inSession) {
-            timer = $interval(function () {
-                updateTimer();
-            }, 1000);
+            inSession = true;
+            var timer = $interval(updateTimer, 1000);
         }
         else {
             $interval.cancel(timer);
+            inSession = false;
         }
 
     }
